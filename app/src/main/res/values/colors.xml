@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="splashBackground">#FFFFFF</color>
+
+    <color name="details_text_color">#1B1A1A</color>
+    <color name="warning_color">#D3CACA</color>
+
+    <color name="link_color">#C18282</color>
+
+    <color name="tooEasy_color">#FFBFBF</color>
+    <color name="weak_color">#FAC421</color>
+    <color name="light_color">#00FFAF</color>
+    <color name="strong_color">#FF324A</color>
+    <color name="dangerous_color">#AD0EF1</color>
+    <color name="critical_color">#FF0000</color>
+    <color name="finish_him_color">#000000</color>
+</resources>

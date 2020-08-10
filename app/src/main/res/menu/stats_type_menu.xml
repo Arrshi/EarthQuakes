@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/year_detailed_type"
+        android:title="@string/bar_chart_description"/>
+    <item
+        android:id="@+id/week_type"
+        android:title="@string/week_stats_type"/>
+    <item
+        android:id="@+id/mount_type"
+        android:title="@string/mount_stats_type"/>
+    <item
+        android:id="@+id/year_type"
+        android:title="@string/year_stats_type"/>
+</menu>

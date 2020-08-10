@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/sort_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_label"
+            android:textColor="@color/details_text_color"
+            android:textSize="24sp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sort_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_current_magnitude"
+            android:textAlignment="center"
+            android:textColor="@color/details_text_color"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sort_label"
+            app:layout_constraintVertical_bias="0.49" />
+
+        <SeekBar
+            android:id="@+id/seek_sort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sort_value"
+            app:layout_constraintVertical_bias="0.56" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

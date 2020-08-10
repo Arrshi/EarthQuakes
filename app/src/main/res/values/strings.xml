@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">IDEAS WORLD</string>
+    <string name="title_home">Землетрясения</string>
+    <string name="title_dashboard">Информация</string>
+    <string name="title_notifications">Статистика</string>
+    <string name="sorting_earthquake">Sort</string>
+
+    <string name="magnitude">Магнитуда: %1$f</string>
+    <string name="locality">Местоположение : %1$s</string>
+    <string name="depth">Глубина : %1$f км</string>
+    <string name="coordinates">Координаты : %2$f</string>
+
+    <string name="data_error_probability">Данные не всегда могут соответсвовать действительности</string>
+    <string name="current_earth_quake">Выбранное землетрясение</string>
+    <string name="magnitude_image_description">Magnitude Image</string>
+    <string name="earth_quake_info" >Информация о проишествии:</string>
+    <string name="choose_sort_value">OK</string>
+    <string name="sort_label">Сортировать:</string>
+    <string name="sort_current_magnitude">Магнитуда : 0</string>
+    <string name="bar_chart_description">Годовая статистика(Подробная)</string>
+    <string name="eight_mmi">FinishHim</string>
+    <string name="week_stats_type">Недельная статистика</string>
+    <string name="mount_stats_type">Месячная статистика</string>
+    <string name="year_stats_type">Годовая статистика</string>
+    <string name="seventh_mmi">Критично</string>
+    <string name="six_mmi">ЖОСТКА</string>
+    <string name="five_mmi">Опасно</string>
+    <string name="four_mmi">Легкое</string>
+    <string name="three_mmi">Незаметное</string>
+    <string name="unnotice">TooEASY</string>
+    <string name="technologies_app">Технологии, использованные в приложении</string>
+    <string name="retrofit_https_square_github_io_retrofit">Retrofit : https://square.github.io/retrofit/</string>
+    <string name="androidx_https_docs_microsoft_com_ru_ru_xamarin_android_platform_androidx">AndroidX : https://docs.microsoft.com/ru-ru/xamarin/android/platform/androidx</string>
+    <string name="room_vpn_https_developer_android_com_jetpack_androidx_releases_room_hl_ru">ROOM (VPN) : https://developer.android.com/jetpack/androidx/releases/room?hl=ru</string>
+    <string name="mvvm_mvp_https_thinkmobiles_com_blog_mvp_vs_mvvm_android_patterns">MVVM/MVP :https://thinkmobiles.com/blog/mvp-vs-mvvm-android-patterns/</string>
+    <string name="moshi_https_blog_mindorks_com_moshi_json_library_for_android">Moshi : https://blog.mindorks.com/moshi-json-library-for-android</string>
+    <string name="bindings_vpn_https_developer_android_com_topic_libraries_data_binding_hl_ru">Bindings (VPN) : https://developer.android.com/topic/libraries/data-binding?hl=ru</string>
+    <string name="about_app">Приложение созданно с целью обучения и не несет особенной смысловой нагрузки. Копирование, а также доработка не запрещены.@ArrShi</string>
+
+</resources>
