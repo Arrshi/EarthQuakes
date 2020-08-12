@@ -1,12 +1,14 @@
 package com.hfad.ideasworld.database
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
-import com.hfad.ideasworld.network.Feature
-import com.hfad.ideasworld.network.statistic.Statistic
+import com.hfad.ideasworld.App
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Singleton
 
 @Dao
 interface EarthQuakeDao{
@@ -34,19 +36,20 @@ interface EarthQuakeDao{
 
 @Database(entities = [DataBaseEarthQuake::class,PerRange::class,PerDate::class],version = 2,exportSchema = false)
 abstract class EarthQuakeBase:RoomDatabase(){
-abstract val earthQuakeDao:EarthQuakeDao
+abstract fun earthQuakeDao():EarthQuakeDao
 }
 
-private lateinit var INSTANCE:EarthQuakeBase
+@Module
+@InstallIn(ApplicationComponent::class)
+object DataBaseModule{
 
-fun getDataBase(context: Context):EarthQuakeBase{
-    synchronized(EarthQuakeBase::class.java){
-        if (!::INSTANCE.isInitialized){
-                INSTANCE=Room.databaseBuilder(context.applicationContext,
-                    EarthQuakeBase::class.java,
-                    "earthQuakes").fallbackToDestructiveMigration().build()
-        }
-    }
-    return INSTANCE
+    @Singleton
+    @Provides
+    fun provideEarthQuakeBase(@ApplicationContext context: Context)= Room.databaseBuilder(context,EarthQuakeBase::class.java,"earthQuakes").build()
+
+    @Singleton
+    @Provides
+    fun provideEarthQuakesDao(dataBaseEarthQuake: EarthQuakeBase):EarthQuakeDao=dataBaseEarthQuake.earthQuakeDao()
+
 }
 

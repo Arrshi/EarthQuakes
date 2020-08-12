@@ -11,8 +11,10 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.hfad.ideasworld.R
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_fragment.view.*
 
+@AndroidEntryPoint
 class SortingDialogFragment :DialogFragment(){
     private var resultType:Int=0
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -22,7 +24,7 @@ class SortingDialogFragment :DialogFragment(){
             val view = inflater.inflate(R.layout.dialog_fragment, null)
             val textView:TextView=view.findViewById(R.id.sort_value)
             alertDialog.setView(view)
-                .setPositiveButton("Ok") { dialogInterface: DialogInterface, i: Int ->
+                .setPositiveButton("Ok") { _: DialogInterface, _: Int ->
                     val intent = Intent()
                     intent.putExtra(MESSAGE_CONFRIM, resultType)
                     targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
@@ -48,6 +50,6 @@ class SortingDialogFragment :DialogFragment(){
     }
 
     companion object {
-        val MESSAGE_CONFRIM="MESSAGE"
+        const val MESSAGE_CONFRIM="MESSAGE"
     }
 }

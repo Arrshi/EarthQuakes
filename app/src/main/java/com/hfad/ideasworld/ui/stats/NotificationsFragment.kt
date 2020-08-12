@@ -1,25 +1,23 @@
 package com.hfad.ideasworld.ui.stats
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.hfad.ideasworld.R
 import com.hfad.ideasworld.databinding.FragmentNotificationsBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
-
+@AndroidEntryPoint
 class NotificationsFragment : Fragment() {
 
-    private val notificationsViewModel: NotificationsViewModel by lazy {
-        val activity= requireNotNull(this.activity){
-            "You can only access the viewModel after onActivityCreated()"
-        }
-        ViewModelProviders.of(this,NotificationViewModelFactory(activity.application)).get(NotificationsViewModel::class.java)
-    }
+    private val notificationsViewModel: NotificationsViewModel by viewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -35,6 +33,7 @@ class NotificationsFragment : Fragment() {
             horizotalBar.isHighlightPerTapEnabled=false
             horizotalBar.isHighlightPerDragEnabled=false
             horizotalBar.xAxis.valueFormatter=object : ValueFormatter(){
+                @SuppressLint("SimpleDateFormat")
                 val sdf=SimpleDateFormat("dd.MM.yyyy")
                 override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                     return sdf.format(value.toLong())

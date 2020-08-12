@@ -1,20 +1,21 @@
 package com.hfad.ideasworld.ui.earthquake
 
-import android.app.Application
-import android.util.Log
+import android.content.Context
 import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.common.internal.Objects
 import com.hfad.ideasworld.database.DataBaseEarthQuake
-import com.hfad.ideasworld.database.getDataBase
 import com.hfad.ideasworld.repository.EarthQuakesRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
-import java.io.IOException
 
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+class HomeViewModel @ViewModelInject constructor(private val earthQuakesRepository: EarthQuakesRepository,
+                                                 @Assisted private val savedInstance:SavedStateHandle,
+                                                 @ApplicationContext private val context: Context) : ViewModel() {
     private val viewModelJob= Job()
 
     private val viewModelScope= CoroutineScope(viewModelJob+Dispatchers.Main)
@@ -33,16 +34,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-    val eventNetworkError: LiveData<Boolean>
-        get() = _eventNetworkError
-
     private var _isNetworkErrorShown = MutableLiveData(false)
-    val isNetworkErrorShown: LiveData<Boolean>
-        get() = _isNetworkErrorShown
 
 
     var _quakesList=MutableLiveData<List<DataBaseEarthQuake>>()
-    private val earthQuakesRepository=EarthQuakesRepository(getDataBase(context = application))
     init {
         viewModelScope.launch {
         _quakesList.value= withContext(Dispatchers.IO){earthQuakesRepository.earthQuakes()}
@@ -85,7 +80,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                   _quakesList.value=withContext(Dispatchers.IO){ earthQuakesRepository.getEarthQuakesByMMI(currentType)}
 
               }catch (e:Exception){
-                  Toast.makeText(getApplication(),e.message,Toast.LENGTH_SHORT).show()
+                  Toast.makeText(context,e.message,Toast.LENGTH_SHORT).show()
               }
        }
    }

@@ -1,26 +1,27 @@
 package com.hfad.ideasworld.ui.stats
 
-import android.app.Application
-import android.util.Log
+import android.content.Context
 import android.widget.Toast
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieEntry
-import com.hfad.ideasworld.database.getDataBase
 import com.hfad.ideasworld.repository.EarthQuakesRepository
 import com.hfad.ideasworld.toHorizontalBarEntry
 import com.hfad.ideasworld.toPieEntry
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import java.io.IOException
-import java.lang.IllegalArgumentException
 
-class NotificationsViewModel(val app:Application) : ViewModel() {
+class NotificationsViewModel @ViewModelInject constructor(private val earthQuakesRepository: EarthQuakesRepository,
+                                                          @Assisted private val savedStateHandle: SavedStateHandle,
+                                                            @ApplicationContext  private val context:Context) : ViewModel() {
     private val viewModelJob= Job()
     private val viewModelScope= CoroutineScope(viewModelJob+Dispatchers.Main)
-
-    private val earthQuakesRepository=EarthQuakesRepository(getDataBase(context = app))
     private val currentType=MutableLiveData(ShowStatsType.YEAR_DETAILED)
 
     private val _isRefreshing=MutableLiveData(false)
@@ -86,7 +87,7 @@ class NotificationsViewModel(val app:Application) : ViewModel() {
             try {
                 earthQuakesRepository.rerfershStats()
             } catch (e: IOException) {
-                Toast.makeText(app,e.message,Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,e.message,Toast.LENGTH_SHORT).show()
             }
             loadDataByType()
             _isRefreshing.value=false

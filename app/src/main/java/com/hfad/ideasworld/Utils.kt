@@ -45,11 +45,11 @@ fun List<PerRange>.toPieEntry():List<PieEntry>{
 }
 
 fun chooseStringByMMI(mmi:Int)=when(mmi){
-    8->ApplicationContext.context.getString(R.string.eight_mmi)
-    7->ApplicationContext.context.getString(R.string.seventh_mmi)
-    6->ApplicationContext.context.getString(R.string.six_mmi)
-    5->ApplicationContext.context.getString(R.string.five_mmi)
-    4->ApplicationContext.context.getString(R.string.four_mmi)
-    3->ApplicationContext.context.getString(R.string.three_mmi)
-    else->ApplicationContext.context.getString(R.string.unnotice)
+    8->App.context.getString(R.string.eight_mmi)
+    7->App.context.getString(R.string.seventh_mmi)
+    6->App.context.getString(R.string.six_mmi)
+    5->App.context.getString(R.string.five_mmi)
+    4->App.context.getString(R.string.four_mmi)
+    3->App.context.getString(R.string.three_mmi)
+    else->App.context.getString(R.string.unnotice)
 }

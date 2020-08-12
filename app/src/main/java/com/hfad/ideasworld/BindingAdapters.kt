@@ -68,7 +68,7 @@ fun HorizontalBarChart.setData(data:List<BarEntry>?){
 fun PieChart.setData(data:List<PieEntry>?){
     data?.let {
         val tempDataSet=PieDataSet(data,"")
-        tempDataSet?.colors= listOf(
+        tempDataSet.colors = listOf(
             ContextCompat.getColor(context,R.color.tooEasy_color),
             ContextCompat.getColor(context,R.color.weak_color),
             ContextCompat.getColor(context,R.color.light_color),

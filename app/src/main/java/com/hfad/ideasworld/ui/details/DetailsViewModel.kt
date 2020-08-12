@@ -1,15 +1,19 @@
 package com.hfad.ideasworld.ui.details
 
 import android.util.Log
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-import com.hfad.ideasworld.network.EarthQuakeNetwork
+
+import com.hfad.ideasworld.network.EarthQuakeService
 import com.hfad.ideasworld.network.Feature
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,20 +21,26 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class DetailsViewModel(publicID:String):ViewModel(){
+class DetailsViewModel @ViewModelInject constructor(@Assisted private val savedStateHandle: SavedStateHandle,
+    private val api: EarthQuakeService
+):ViewModel(){
     private val viewModelJob= Job()
     private val viewModelScope= CoroutineScope(viewModelJob+Dispatchers.Main)
     private lateinit var googleMap:GoogleMap
-    private val api=EarthQuakeNetwork.retrofitApi
     private val _earthquake=MutableLiveData<Feature>()
     val earthquake:LiveData<Feature> get() = _earthquake
 
     private val _isNetworkError=MutableLiveData<Boolean>(false)
     val isNetworkError:LiveData<Boolean>
         get() = _isNetworkError
+    var publicID:String=""
+        set(value) {
+            field = value
+            getDataByID()
+        }
 
 
-    init {
+    private fun getDataByID() {
         viewModelScope.launch {
             try {
                 val earthQuake=api.getByPublicIDAsync(publicID).await().features

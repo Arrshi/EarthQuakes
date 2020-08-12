@@ -1,60 +1,55 @@
 package com.hfad.ideasworld.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import com.hfad.ideasworld.database.DataBaseEarthQuake
-import com.hfad.ideasworld.database.EarthQuakeBase
-import com.hfad.ideasworld.database.PerRange
-import com.hfad.ideasworld.network.EarthQuakeNetwork
+import com.hfad.ideasworld.database.EarthQuakeDao
+import com.hfad.ideasworld.network.EarthQuakeService
 import com.hfad.ideasworld.network.asDataBaseModel
 import com.hfad.ideasworld.toListOfDatePairs
 import com.hfad.ideasworld.toListPerRange
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class EarthQuakesRepository(val dataBaseEarthQuake: EarthQuakeBase){
-   fun earthQuakes():List<DataBaseEarthQuake> =dataBaseEarthQuake.earthQuakeDao.getAllEarthQuakes()
+class EarthQuakesRepository @Inject constructor(private val earthQuakeDao: EarthQuakeDao, private val retrofitApi: EarthQuakeService){
+   fun earthQuakes():List<DataBaseEarthQuake> =earthQuakeDao.getAllEarthQuakes()
+   fun getEarthQuakesByMMI(mmi:Int):List<DataBaseEarthQuake> = earthQuakeDao.getEarthQuakesByMMI(mmi)
 
-   fun getEarthQuakesByMMI(mmi:Int):List<DataBaseEarthQuake>{
-        return dataBaseEarthQuake.earthQuakeDao.getEarthQuakesByMMI(mmi)
-    }
-
-    fun getRangeStatistics(type: String)=dataBaseEarthQuake.earthQuakeDao.getStatsRangeByType(type)
-    fun getYearDateStatistics()=dataBaseEarthQuake.earthQuakeDao.getYearDateStats()
+    fun getRangeStatistics(type: String)=earthQuakeDao.getStatsRangeByType(type)
+    fun getYearDateStatistics()=earthQuakeDao.getYearDateStats()
 
     suspend fun refreshEarthQuakes(){
         withContext(Dispatchers.IO){
-            val quakesList=EarthQuakeNetwork.retrofitApi.getEarthQuakes().await()
-            dataBaseEarthQuake.earthQuakeDao.insertAll(quakesList.asDataBaseModel())
+            val quakesList=retrofitApi.getEarthQuakes().await()
+            earthQuakeDao.insertAll(quakesList.asDataBaseModel())
         }
     }
 
     suspend fun refresh() {
         withContext(Dispatchers.IO)
         {
-            var list= EarthQuakeNetwork.retrofitApi.getEarthQuakes("8").await().asDataBaseModel()//EarthQuakeNetwork..getEarthquakesAsync("8").await().toEarthquakeList()
-            dataBaseEarthQuake.earthQuakeDao.insertAll(list)
-            list= EarthQuakeNetwork.retrofitApi.getEarthQuakes("7").await().asDataBaseModel()
-            dataBaseEarthQuake.earthQuakeDao.insertAll(list)
-            list= EarthQuakeNetwork.retrofitApi.getEarthQuakes("6").await().asDataBaseModel()
-            dataBaseEarthQuake.earthQuakeDao.insertAll(list)
-            list= EarthQuakeNetwork.retrofitApi.getEarthQuakes("5").await().asDataBaseModel()
-            dataBaseEarthQuake.earthQuakeDao.insertAll(list)
-            list= EarthQuakeNetwork.retrofitApi.getEarthQuakes("4").await().asDataBaseModel()
-            dataBaseEarthQuake.earthQuakeDao.insertAll(list)
-            list= EarthQuakeNetwork.retrofitApi.getEarthQuakes("3").await().asDataBaseModel()
-            dataBaseEarthQuake.earthQuakeDao.insertAll(list)
+            var list= retrofitApi.getEarthQuakes("8").await().asDataBaseModel()//EarthQuakeNetwork..getEarthquakesAsync("8").await().toEarthquakeList()
+            earthQuakeDao.insertAll(list)
+            list= retrofitApi.getEarthQuakes("7").await().asDataBaseModel()
+            earthQuakeDao.insertAll(list)
+            list= retrofitApi.getEarthQuakes("6").await().asDataBaseModel()
+            earthQuakeDao.insertAll(list)
+            list= retrofitApi.getEarthQuakes("5").await().asDataBaseModel()
+            earthQuakeDao.insertAll(list)
+            list= retrofitApi.getEarthQuakes("4").await().asDataBaseModel()
+            earthQuakeDao.insertAll(list)
+            list= retrofitApi.getEarthQuakes("3").await().asDataBaseModel()
+            earthQuakeDao.insertAll(list)
         }
     }
     suspend fun rerfershStats(){
         withContext(Dispatchers.IO){
-            dataBaseEarthQuake.earthQuakeDao.deleteRangeStats()
-            dataBaseEarthQuake.earthQuakeDao.deleteYearDateStats()
-            val refreshedStats=EarthQuakeNetwork.retrofitApi.getStatsAsync().await()
-            dataBaseEarthQuake.earthQuakeDao.insertStats(refreshedStats.magnitudeCount.days7.toListPerRange("Week"))
-            dataBaseEarthQuake.earthQuakeDao.insertStats(refreshedStats.magnitudeCount.days28.toListPerRange("Month"))
-            dataBaseEarthQuake.earthQuakeDao.insertStats(refreshedStats.magnitudeCount.days365.toListPerRange("Year"))
-            dataBaseEarthQuake.earthQuakeDao.insertYearDate(refreshedStats.rate.perDay.toListOfDatePairs())
+            earthQuakeDao.deleteRangeStats()
+            earthQuakeDao.deleteYearDateStats()
+            val refreshedStats=retrofitApi.getStatsAsync().await()
+            earthQuakeDao.insertStats(refreshedStats.magnitudeCount.days7.toListPerRange("Week"))
+            earthQuakeDao.insertStats(refreshedStats.magnitudeCount.days28.toListPerRange("Month"))
+            earthQuakeDao.insertStats(refreshedStats.magnitudeCount.days365.toListPerRange("Year"))
+            earthQuakeDao.insertYearDate(refreshedStats.rate.perDay.toListOfDatePairs())
         }
     }
 }

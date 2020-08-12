@@ -1,32 +1,26 @@
 package com.hfad.ideasworld.ui.details
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.hfad.ideasworld.R
 import com.hfad.ideasworld.databinding.FragmentDetailsBinding
-import com.hfad.ideasworld.network.EarthQuakeNetwork
-import com.hfad.ideasworld.ui.earthquake.HomeViewModel
-import com.hfad.ideasworld.ui.earthquake.HomeViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_details.*
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
-    private val detailsViewModel:DetailsViewModel by lazy {
-        val tempPublicID=DetailsFragmentArgs.fromBundle(requireArguments()).publicID
-        ViewModelProviders.of(this,DetailsViewModelFactory(tempPublicID)).get(DetailsViewModel::class.java)
-    }
+    private val detailsViewModel:DetailsViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding=DataBindingUtil.inflate<FragmentDetailsBinding>(inflater,R.layout.fragment_details,container,false)
+        detailsViewModel.publicID=DetailsFragmentArgs.fromBundle(requireArguments()).publicID
         binding.apply {
             viewModel=detailsViewModel
             lifecycleOwner=viewLifecycleOwner
