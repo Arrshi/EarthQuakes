@@ -13,8 +13,7 @@
         android:id="@+id/refresh_swipe"
         android:layout_height="match_parent"
         tools:context=".ui.earthquake.HomeFragment"
-        android:layout_marginBottom="57dp"
-        setRefresher="@{viewModel.tryToRefresh}">
+        android:layout_marginBottom="57dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/quake_view"

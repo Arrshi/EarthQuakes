@@ -3,6 +3,7 @@ package com.hfad.ideasworld.ui.earthquake
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import com.hfad.ideasworld.R
 import com.hfad.ideasworld.databinding.FragmentHomeBinding
 import com.hfad.ideasworld.ui.earthquake.sorting.SortingDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_home.*
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -40,9 +42,11 @@ class HomeFragment : Fragment() {
                 adapter=viewAdapter
                 addItemDecoration(earthQuakeItemDecorator)
             }
-            refreshSwipe.setOnRefreshListener {
-                homeViewModel.onRefresh()
-            }
+        }
+        binding.refreshSwipe.setOnRefreshListener {
+            refresh_swipe.isRefreshing=true
+            homeViewModel.onRefresh()
+            refresh_swipe.isRefreshing=false
         }
         homeViewModel._quakesList.observe(viewLifecycleOwner, Observer {
            viewAdapter.submitList(it)

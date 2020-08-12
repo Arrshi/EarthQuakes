@@ -22,9 +22,9 @@ class HomeViewModel @ViewModelInject constructor(private val earthQuakesReposito
 
     private var _eventNetworkError = MutableLiveData(false)
 
-    private val _tryToRefresh=MutableLiveData<Boolean>(false)
-    val tryToRefresh:LiveData<Boolean>
-        get() = _tryToRefresh
+    private val _isRefreshing=MutableLiveData(false)
+    val isRefreshing:LiveData<Boolean>
+        get() = _isRefreshing
 
     var currentType:Int=-1
         set(value) {
@@ -50,7 +50,7 @@ class HomeViewModel @ViewModelInject constructor(private val earthQuakesReposito
 
     private fun refreshAllEarthQuakes(){
         viewModelScope.launch {
-            _tryToRefresh.value=true
+            _isRefreshing.value=true
             try
             {
                 earthQuakesRepository.refreshEarthQuakes()
@@ -64,7 +64,7 @@ class HomeViewModel @ViewModelInject constructor(private val earthQuakesReposito
                 _eventNetworkError.value=true
             }
             _quakesList.value= withContext(Dispatchers.IO){ earthQuakesRepository.getEarthQuakesByMMI(currentType)}
-            _tryToRefresh.value=false
+            _isRefreshing.value=false
         }
 
     }
